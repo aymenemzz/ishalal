@@ -5,6 +5,7 @@ import HeadBar from "@/components/HeadBar.vue";
 
 <template>
   <HeadBar class="head-bar"/>
+  <
 </template>
 
 <style scoped>
