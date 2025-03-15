@@ -4,13 +4,9 @@ import HeadBar from "@/components/HeadBar.vue";
 </script>
 
 <template>
-  <HeadBar class="HeadBar"/>
+  <HeadBar class="head-bar"/>
 </template>
 
 <style scoped>
-
-.HeadBar {
-  background-color: #7700A6;
-}
 
 </style>
