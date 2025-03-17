@@ -1,13 +1,12 @@
 <script setup lang="ts">
 
 import HeadBar from "@/components/HeadBar.vue";
-import InputText from "@/components/HalalForm/InputText.vue";
+import IsHalalForm from "@/components/HalalForm/IsHalalForm.vue";
 </script>
 
 <template>
   <HeadBar class="head-bar"/>
-  
-  <InputText/>
+  <IsHalalForm/>
 </template>
 
 <style scoped>
