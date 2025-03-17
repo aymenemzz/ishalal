@@ -6,6 +6,7 @@ import InputText from "@/components/HalalForm/InputText.vue";
 
 <template>
   <HeadBar class="head-bar"/>
+  
   <InputText/>
 </template>
 
