@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
 import HeadBar from "@/components/HeadBar.vue";
-import IsHalalForm from "@/components/HalalForm/IsHalalForm.vue";
+import ProductPage from "@/components/ProductPage.vue";
 </script>
 
 <template>
   <HeadBar class="head-bar"/>
-  <IsHalalForm/>
+  <!--  <IsHalalForm/>  TODO : enlever le commentaire au moment ou on va setup les route -->
+  <product-page class="product-page"/>
 </template>
 
 <style scoped>
