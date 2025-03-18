@@ -7,6 +7,7 @@
     font-weight: normal;
     background-color: #f6dfff;
     color: white;
+    height: 100vh;
 }
 
 .cinzel-decorative-regular {
@@ -21,14 +22,14 @@
     font-style: normal;
 }
 
-.title, .cinzel-decorative-black {
+.title, .isHalal-button, .cinzel-decorative-black {
     font-family: "Cinzel Decorative", serif;
     font-weight: 900;
     font-style: normal;
 }
 
 
-.scan-button, .lexend-black {
+.scan-button, .import-picture-text, .lexend-black {
     font-family: "Lexend", sans-serif;
     font-optical-sizing: auto;
     font-weight: 900;

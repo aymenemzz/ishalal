@@ -5,7 +5,7 @@
 <template>
   <div class="scan-button-container">
     <button class="scan-button">
-      <img class="plus-icon" type="svg" src="../../assets/icons/plus.svg" alt="plus icon from apple design">
+      <img class="plus-icon" type="svg" src="@/assets/icons/plus.svg" alt="plus icon from apple design">
       Scan product
     </button>
   </div>
