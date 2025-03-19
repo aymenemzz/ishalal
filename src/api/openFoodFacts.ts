@@ -1,12 +1,5 @@
 import axios from "axios";
-
-interface Product {
-    barcode: string;
-    productName: string;
-    companies: string[];
-    ingredients: any[];
-    imageUrl: string | null;
-}
+import type {Product} from "@/core/interface/Product.ts";
 
 // Pour importer ce module dans un autre fichier, il suffit d'utiliser la commande suivante:
 // import * as OpenFoodFacts from "chemin_du_fichier/openfoodfacts.ts";

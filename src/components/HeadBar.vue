@@ -5,8 +5,13 @@ import NewScanButton from "@/components/Button/NewScanButton.vue";
 
 <template>
   <div class="head-bar">
-    <div class="title">IsHalal</div>
-    <new-scan-button/>
+    <router-link to="/">
+      <div class="title">IsHalal</div>
+    </router-link>
+    <router-link to="/">
+      <new-scan-button/>
+    </router-link>
+
   </div>
 </template>
 

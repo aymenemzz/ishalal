@@ -7,6 +7,7 @@
     Is Halal ?
     <img src="@/assets/icons/arrow-right.svg" alt="arrow right icon from apple's design system" class="arrow-right-icon"/>
   </button>
+
 </template>
 
 <style scoped>
