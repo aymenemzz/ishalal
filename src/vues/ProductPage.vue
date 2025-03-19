@@ -1,18 +1,21 @@
 <script setup lang="ts">
 
-  // Import des fonctions vueJs
-  import {useRoute, useRouter} from "vue-router";
-  import {onMounted, ref, computed, toRaw} from "vue";
+// Import des fonctions vueJs
+import {useRoute, useRouter} from "vue-router";
+import {computed, onMounted, ref} from "vue";
 
-  // Import des scripts
-  import * as OpenFoodFact from '@/core/api/openFoodFacts.ts';
-  import * as IsHalalProduct from "@/core/IsHalalProduct.ts";
-  type HalalStatus = IsHalalProduct.HalalStatus;
-  import type {Product} from "@/core/interface/Product.ts";
+// Import des scripts
+import * as OpenFoodFact from '@/core/api/openFoodFacts.ts';
+import * as IsHalalProduct from "@/core/IsHalalProduct.ts";
+import type {Product} from "@/core/interface/Product.ts";
 
-  // Import des composants
-  import Loader from "@/components/loader/Loader.vue";
-  import IsHalalTags from "@/components/Tags/IsHalalTags.vue";
+// Import des composants
+import Loader from "@/components/loader/Loader.vue";
+import IsHalalTags from "@/components/Tags/IsHalalTags.vue";
+import NonHalalPicto from "@/components/Tags/NonHalalPicto.vue";
+import HalalIndicatorDescription from "@/components/Tags/HalalIndicatorDescription.vue";
+
+type HalalStatus = IsHalalProduct.HalalStatus;
 
 // Initialisation de la variable avec un type correct
 let product = ref<Product | null>(null);
@@ -28,28 +31,27 @@ onMounted(() => {
       if (!response) throw new Error("Réponse invalide de l'API");
       product.value = response;
     } catch (error) {
-      router.push({ name: "Home", query: { invalidBarcode: barCode } });
+      router.push({name: "Home", query: {invalidBarcode: barCode}});
       console.error("Impossible de récupérer les informations du produit", error);
     }
-  }, 3000); // 30 secondes d'attente
+  }, 30000); // 30 secondes d'attente pour montrer qu'on sait le faire et pour la musique
 });
 
 
-  // Calcul du statut halal
-  const isHalal = computed(() => {
-    if (product.value) {
-      return IsHalalProduct.isHalal(product.value);
-    }
-    return "doubtful"; // or any default value you prefer
-  });
+// Calcul du statut halal
+const isHalal = computed(() => {
+  if (product.value) {
+    return IsHalalProduct.isHalal(product.value);
+  }
+  return "doubtful"; // or any default value you prefer
+});
 
-  const nonHalalIngredients = computed(() => {
-    if (product.value) {
-      const nonHalal = IsHalalProduct.getNonHalalIngredients(product.value);
-      return nonHalal;
-    }
-    return [];
-  });
+const nonHalalIngredients = computed(() => {
+  if (product.value) {
+    return IsHalalProduct.getNonHalalIngredients(product.value);
+  }
+  return [];
+});
 
 </script>
 
@@ -58,19 +60,20 @@ onMounted(() => {
   <div class="product-container" v-if="product">
     <div class="column first">
 
-      <div class="nonHalalPictoList">
+      <div>
+        <non-halal-picto :non-halal-ingredients="nonHalalIngredients"/>
       </div>
       <img v-if="product.imageUrl" :src="product.imageUrl" alt="image not found" class="product-image"/>
 
     </div>
     <div class="column second">
       <is-halal-tags :halalTag="isHalal"/>
-      <h1 class="product-name">{{ product.productName }}</h1>
-      <h4 class="brand-name">{{ product.companies.join(", ") }}</h4>
-      Show all non halal ingredients
-      <ul>
-        <li v-for="ingredient in nonHalalIngredients" :key="ingredient">{{ ingredient }}</li>
-      </ul>
+      <div class="product-name-and-brand">
+        <h1 class="product-name">{{ product.productName }}</h1>
+        <h4 class="brand-name">{{ product.companies.join(", ") }}</h4>
+      </div>
+
+      <halal-indicator-description :status="isHalal" :non-halal-ingredients="nonHalalIngredients" class="halal-indicator-description"/>
     </div>
 
   </div>
@@ -93,24 +96,36 @@ onMounted(() => {
 
 .brand-name {
   font-size: 2rem;
-}
-
-.product-image {
-  max-height: 70vh;
-  width: auto;
+  font-weight: bold;
 }
 
 .column {
   display: flex;
   flex-direction: column;
-  height: inherit;
   margin: 2%;
+}
+
+.product-image {
+  max-height: 80%;
+  max-width: 80%;
+  height: 100%;
+  object-fit: contain; /* Assure que l'image est contenue sans déformation */
 }
 
 .first {
   align-items: center;
-  justify-content: end;
+  justify-content: space-evenly;
 }
 
+.halal-indicator-description {
+  margin-top: 3rem;
+  font-size: 2rem;
+}
+
+.product-name-and-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 
 </style>

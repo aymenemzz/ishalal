@@ -24,6 +24,7 @@
   justify-content: space-evenly;
   padding: 0.7rem;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .scan-button:hover {
