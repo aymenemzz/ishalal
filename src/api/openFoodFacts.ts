@@ -13,20 +13,22 @@ const openFoodFacts = axios.create({
 const getProductInformations = async (barcode: string): Promise<Product> => {
     try {
         const response = await openFoodFacts.get(
-            `/api/v0/product/${barcode}?fields=product_name,brands,ingredients,image_front_url,image_url,label_tags`
+            `/api/v0/product/${barcode}?fields=product_name,brands,ingredients,image_front_url,image_url,labels_tags`
         );
-        const label_tags = response.data.labels ?? [];
+        const labels_tags = response.data.product.labels_tags ?? [];
         const product: Product = {
             barcode: response.data.code ?? barcode,
             productName: response.data.product.product_name ?? "Nom inconnu",
             companies: response.data.product.brands ? response.data.product.brands.split(",") : [],
             ingredients: response.data.product.ingredients ?? [],
             imageUrl: response.data.product.image_front_url ?? response.data.product.image_url ?? null,
-            withHalalTag: "en:halal" in label_tags
+            withHalalTag: labels_tags.includes("en:halal"),
         };
 
+        // console.log("Response", response.data);
+        // console.log("Product informations", product);
 
-        if ("en:halal" in label_tags) {
+        if ("en:halal" in labels_tags) {
             product.withHalalTag = true
         }
 
