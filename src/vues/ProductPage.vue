@@ -26,7 +26,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="product-container" v-if="product">
+  <div class="">
+    <div class="row">
+      <div class="col-4">
+        <p>alcool drogue porc tabac</p>
+        <p>monstermonarch.png</p>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-12">
+            <div class="w-75" style="background-color: green;">
+              Halal
+            </div>
+          </div>
+          <div class="col-12">
+            Monster Monarch Juiced Energy + Juice
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="product-container" v-if="product">
     <h1>{{ product.productName }}</h1>
     <p>Barcode: {{ product.barcode }}</p>
     <p>Companies: {{ product.companies.join(", ") }}</p>
