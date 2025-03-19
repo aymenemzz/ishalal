@@ -3,6 +3,14 @@ import {ref} from "vue";
 import InputText from "@/components/HalalForm/InputText.vue";
 import IsHalalButton from "@/components/Button/IsHalalButton.vue";
 import DropZone from "@/components/HalalForm/DropZone.vue";
+import InvalidBarcode from "@/components/HalalForm/InvalidBarcode.vue";
+
+const props = defineProps({
+  invalidBarcode: {
+    type: String,
+    default: ""
+  }
+})
 
 // Stocke le barcode émis par InputText
 const barCode = ref("");
@@ -11,6 +19,7 @@ const barCode = ref("");
 <template>
 
   <div class="halal-form">
+    <InvalidBarcode v-if="props.invalidBarcode" :barcode="props.invalidBarcode"/>
     <DropZone/>
     <InputText v-model:barcode="barCode"/>
     <IsHalalButton :bar-code="barCode"/>

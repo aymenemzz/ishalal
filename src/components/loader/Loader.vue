@@ -31,6 +31,7 @@ onUnmounted(() => {
   justify-content: start;
   height: 100%;
   padding: 5rem;
+  max-height: 80vh;
 }
 
 .loader {

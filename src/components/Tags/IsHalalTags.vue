@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import * as IsHalalProduct from "../../core/IsHalalProduct.ts";
+type HalalStatus = IsHalalProduct.HalalStatus;
 
 // Définition des props
 const props = defineProps<{
-  ingredients: any[],
-  halalTag: boolean
+  halalTag: HalalStatus, 
 }>();
 
-// Calcul du statut )halal
-const isHalal = computed(() => IsHalalProduct.isHalal(props.ingredients, props.halalTag));
+const halalText = computed(() => {
+  if (props.halalTag === 'halal') return 'Halal';
+  if (props.halalTag === 'not-halal') return 'Not Halal';
+  if (props.halalTag === 'doubtful') return 'Doubtful';
+  return '';
+});
 </script>
 
 <template>
-  <div :class="['halal-indicator', isHalal ? 'halal' : 'not-halal']">
-    {{ isHalal ? 'Halal' : 'Not Halal' }}
+  <div :class="['halal-indicator', halalTag]">
+    {{ halalText }}
   </div>
 </template>
 
@@ -22,7 +26,7 @@ const isHalal = computed(() => IsHalalProduct.isHalal(props.ingredients, props.h
 .halal-indicator {
   padding: 10px;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 6rem;
   text-align: center;
   border-radius: 5px;
 }
@@ -35,5 +39,10 @@ const isHalal = computed(() => IsHalalProduct.isHalal(props.ingredients, props.h
 .not-halal {
   background-color: red;
   color: white;
+}
+
+.doubtful {
+  background-color: orange;
+  color: black;
 }
 </style>
