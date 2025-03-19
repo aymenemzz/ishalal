@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import * as OpenFoodFact from '@/core/api/openFoodFacts.ts';
-import {onMounted, ref} from "vue";
-import Loader from "@/components/loader/Loader.vue";
-import type {Product} from "@/core/interface/Product.ts";
-import {useRoute} from "vue-router";
-import IsHalalTags from "@/components/Tags/IsHalalTags.vue";
+
+  // Import des fonctions vueJs
+  import {useRoute} from "vue-router";
+  import {onMounted, ref} from "vue";
+  import {computed} from "vue";
+
+  // Import des scripts
+  import * as OpenFoodFact from '@/core/api/openFoodFacts.ts';
+  import * as IsHalalProduct from "@/core/IsHalalProduct.ts";
+  type HalalStatus = IsHalalProduct.HalalStatus;
+  import type {Product} from "@/core/interface/Product.ts";
+
+  // Import des composants
+  import Loader from "@/components/loader/Loader.vue";
+  import IsHalalTags from "@/components/Tags/IsHalalTags.vue";
+
 
 // Initialisation de la variable avec un type correct
 let product = ref<Product | null>(null);
@@ -23,6 +33,16 @@ onMounted(() => {
     }
   }, 30000); // 30 secondes d'attente
 });
+
+
+  // Calcul du statut halal
+  const isHalal = computed(() => {
+    if (product.value) {
+      return IsHalalProduct.isHalal(product.value);
+    }
+    return "doubtful"; // or any default value you prefer
+  });
+
 </script>
 
 <template>
@@ -36,7 +56,7 @@ onMounted(() => {
 
     </div>
     <div class="column second">
-      <is-halal-tags :ingredients="product.ingredients" :halal-tag="product.withHalalTag"/>
+      <is-halal-tags :halalTag="isHalal"/>
       <h1 class="product-name">{{ product.productName }}</h1>
       <h4 class="brand-name">{{ product.companies.join(", ") }}</h4>
     </div>
