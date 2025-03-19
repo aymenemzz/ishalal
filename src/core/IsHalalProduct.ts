@@ -1,7 +1,9 @@
+// noinspection ES6UnusedImports
+
 import nonHalalData from "@/stores/NoHalalIngredients.json";
 import type {Product} from "@/core/interface/Product.ts";
 // import toraw from vue
-import { toRaw } from "vue";    
+import {toRaw} from "vue";
 
 const ingredientTranslationLibrary = {
     "en:pork": ["porc", "cochon", "fr:porc", "fr:cochon"],
@@ -16,8 +18,8 @@ export function isHalal(product: Product): HalalStatus {
     if (halalTag) return "halal";
     const hasNonHalalIngredient = ingredients.some(ing => {
         if (typeof ing !== "object" || !ing.id || typeof ing.id !== "string") {
-          console.warn("Ingrédient non valide détecté :", ing);
-          return false; // Ignorer les éléments non valides
+            console.warn("Ingrédient non valide détecté :", ing);
+            return false; // Ignorer les éléments non valides
         }
         return nonHalalData.nonHalalIngredients.includes(ing.id.toLowerCase());
     });
