@@ -1,9 +1,37 @@
 <script setup lang="ts">
-function handleFileUpload(event) {
-  const file = event.target.files[0];
-  if (file) {
-    console.log('Fichier sélectionné:', file.name);
-    // Traitement du fichier ici (upload, aperçu, etc.)
+import {defineEmits, ref} from "vue";
+import decodeBarcodeFromImage from "@/core/api/barcodeReader.ts";
+
+const emit = defineEmits(["barcodeDetected"]);
+const selectedFile = ref<File | null>(null);
+
+async function handleFileUpload(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    selectedFile.value = file;
+
+    try {
+      const barcode = await extractBarcode(file);
+      if (barcode) {
+        console.log("Code-barres détecté:", barcode);
+        emit("barcodeDetected", barcode);
+      } else {
+        console.log("Aucun code-barres détecté.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la lecture du code-barres:", error);
+    }
+  }
+}
+
+async function extractBarcode(file: File): Promise<string | null> {
+  try {
+    const barcode = await decodeBarcodeFromImage(file.webkitRelativePath);
+    return barcode;
+  } catch (error) {
+    console.error("Erreur lors de la lecture du code-barres:", error);
+    return null;
   }
 }
 </script>
@@ -12,7 +40,7 @@ function handleFileUpload(event) {
 <template>
   <label for="file-upload" class="import-picture-container">
     <div class="import-picture-text">+ Import a barcode picture</div>
-    <input type="file" id="file-upload" hidden @change="handleFileUpload"/>
+    <input type="file" id="file-upload" hidden @change="handleFileUpload" accept="image/*"/>
   </label>
 </template>
 
