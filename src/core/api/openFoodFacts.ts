@@ -27,7 +27,7 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
             ingredients = [];
         }
         const product: Product = {
-            barcode: response.data.code ?? barcode,
+            barcode: response.data.code ?? null,
             productName: response.data.product.product_name ?? "Nom inconnu",
             companies: response.data.product.brands ? response.data.product.brands.split(",") : [],
             ingredients: ingredients,
@@ -35,8 +35,8 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
             withHalalTag: labels_tags.includes("en:halal"),
         };
 
-        console.log("Response", response.data);
-        console.log("Product informations", product);
+        // console.log("Response", response.data);
+        // console.log("Product informations", product);
 
         if ("en:halal" in labels_tags) {
             product.withHalalTag = true

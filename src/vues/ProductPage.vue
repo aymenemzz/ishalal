@@ -2,8 +2,7 @@
 
   // Import des fonctions vueJs
   import {useRoute} from "vue-router";
-  import {onMounted, ref} from "vue";
-  import {computed} from "vue";
+  import {onMounted, ref, computed, toRaw} from "vue";
 
   // Import des scripts
   import * as OpenFoodFact from '@/core/api/openFoodFacts.ts';
@@ -31,7 +30,7 @@ onMounted(() => {
     } catch (error) {
       console.error("Impossible de récupérer les informations du produit", error);
     }
-  }, 30000); // 30 secondes d'attente
+  }, 3000); // 30 secondes d'attente
 });
 
 
@@ -41,6 +40,14 @@ onMounted(() => {
       return IsHalalProduct.isHalal(product.value);
     }
     return "doubtful"; // or any default value you prefer
+  });
+
+  const nonHalalIngredients = computed(() => {
+    if (product.value) {
+      const nonHalal = IsHalalProduct.getNonHalalIngredients(product.value);
+      return nonHalal;
+    }
+    return [];
   });
 
 </script>
@@ -59,6 +66,10 @@ onMounted(() => {
       <is-halal-tags :halalTag="isHalal"/>
       <h1 class="product-name">{{ product.productName }}</h1>
       <h4 class="brand-name">{{ product.companies.join(", ") }}</h4>
+      Show all non halal ingredients
+      <ul>
+        <li v-for="ingredient in nonHalalIngredients" :key="ingredient">{{ ingredient }}</li>
+      </ul>
     </div>
 
   </div>
