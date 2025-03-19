@@ -3,7 +3,10 @@ import {computed} from "vue";
 import * as IsHalalProduct from "../../core/IsHalalProduct.ts";
 
 // Définition des props
-const props = defineProps<{ ingredients: any[] }>();
+const props = defineProps<{
+  ingredients: any[],
+  halalTag: boolean
+}>();
 
 // Calcul du statut )halal
 const isHalal = computed(() => IsHalalProduct.isHalal(props.ingredients, props.halalTag));

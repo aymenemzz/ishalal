@@ -13,16 +13,22 @@ const openFoodFacts = axios.create({
 const getProductInformations = async (barcode: string): Promise<Product> => {
     try {
         const response = await openFoodFacts.get(
-            `/api/v0/product/${barcode}?fields=product_name,brands,ingredients,image_front_url,image_url`
+            `/api/v0/product/${barcode}?fields=product_name,brands,ingredients,image_front_url,image_url,label_tags`
         );
-
+        const label_tags = response.data.labels ?? [];
         const product: Product = {
             barcode: response.data.code ?? barcode,
             productName: response.data.product.product_name ?? "Nom inconnu",
             companies: response.data.product.brands ? response.data.product.brands.split(",") : [],
             ingredients: response.data.product.ingredients ?? [],
             imageUrl: response.data.product.image_front_url ?? response.data.product.image_url ?? null,
+            withHalalTag: "en:halal" in label_tags
         };
+
+
+        if ("en:halal" in label_tags) {
+            product.withHalalTag = true
+        }
 
         // Si l'image n'est pas trouvée, on essaie avec l'autre URL
         if (product.imageUrl) {
