@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
   // Import des fonctions vueJs
-  import {useRoute} from "vue-router";
+  import {useRoute, useRouter} from "vue-router";
   import {onMounted, ref, computed, toRaw} from "vue";
 
   // Import des scripts
@@ -14,10 +14,10 @@
   import Loader from "@/components/loader/Loader.vue";
   import IsHalalTags from "@/components/Tags/IsHalalTags.vue";
 
-
 // Initialisation de la variable avec un type correct
 let product = ref<Product | null>(null);
 const route = useRoute();
+const router = useRouter();
 
 onMounted(() => {
   const barCode = route.params.barCode as string;
@@ -28,6 +28,7 @@ onMounted(() => {
       if (!response) throw new Error("Réponse invalide de l'API");
       product.value = response;
     } catch (error) {
+      router.push({ name: "Home", query: { invalidBarcode: barCode } });
       console.error("Impossible de récupérer les informations du produit", error);
     }
   }, 3000); // 30 secondes d'attente
