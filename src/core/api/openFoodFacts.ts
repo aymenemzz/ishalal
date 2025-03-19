@@ -13,7 +13,7 @@ const openFoodFacts = axios.create({
 const getProductInformations = async (barcode: string): Promise<Product> => {
     try {
         const response = await openFoodFacts.get(
-            `/api/v0/product/${barcode}?fields=status,product_name,brands,ingredients,image_front_url,image_url,labels_tags,specific_ingredients`
+            `/api/v0/product/${barcode}?fields=status,product_name,brands,ingredients,categories_tags,image_front_url,image_url,labels_tags,specific_ingredients`
         );
         const labels_tags = response.data.product.labels_tags ?? [];
         let ingredients = [];
@@ -26,6 +26,16 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
         else{
             ingredients = [];
         }
+
+        // Map categories_tags to objects with a consistent structure
+        const categoriesTags = (response.data.product.categories_tags ?? []).map(tag => ({ id: tag, text: tag }));
+
+        // Combine ingredients and categories_tags
+        const combinedIngredients = [
+            ...ingredients,
+            ...categoriesTags
+        ];
+        
         const product: Product = {
             barcode: response.data.code ?? null,
             productName: response.data.product.product_name ?? "Nom inconnu",
