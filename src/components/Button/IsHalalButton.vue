@@ -1,13 +1,24 @@
 <script setup lang="ts">
+import {defineProps} from "vue";
+import {useRouter} from "vue-router";
 
+const props = defineProps<{ barCode: string }>();
+const router = useRouter();
+
+const goToProductPage = () => {
+  if (!props.barCode) {
+    alert("Veuillez entrer un code-barres !");
+    return;
+  }
+  router.push({name: "ProductPage", params: {barCode: props.barCode}});
+};
 </script>
 
 <template>
-  <button class="isHalal-button">
+  <button class="isHalal-button" @click="goToProductPage">
     Is Halal ?
     <img src="@/assets/icons/arrow-right.svg" alt="arrow right icon from apple's design system" class="arrow-right-icon"/>
   </button>
-
 </template>
 
 <style scoped>
