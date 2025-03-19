@@ -1,10 +1,25 @@
 <script setup lang="ts">
+import {defineEmits, ref} from "vue";
 
+const barcode = ref("");
+const emit = defineEmits(["update:barcode"]);
+
+const updateBarcode = (event: Event) => {
+  barcode.value = (event.target as HTMLInputElement).value;
+  emit("update:barcode", barcode.value);
+};
 </script>
 
 <template>
   <div class="input-text-container">
-    <input id="halal-input-barcode" class="input-text" type="text" placeholder="Enter a barcode">
+    <input
+        id="halal-input-barcode"
+        class="input-text"
+        type="text"
+        placeholder="Enter a barcode"
+        :value="barcode"
+        @input="updateBarcode"
+    />
   </div>
 </template>
 
