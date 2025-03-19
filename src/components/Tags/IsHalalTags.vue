@@ -22,7 +22,7 @@ const isHalal = computed(() => IsHalalProduct.isHalal(props.ingredients, props.h
 .halal-indicator {
   padding: 10px;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 6rem;
   text-align: center;
   border-radius: 5px;
 }
