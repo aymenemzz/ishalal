@@ -60,7 +60,7 @@ const nonHalalIngredients = computed(() => {
   <div class="product-container" v-if="product">
     <div class="column first">
 
-      <div>
+      <div class="non-halal-picto-list">
         <non-halal-picto :non-halal-ingredients="nonHalalIngredients"/>
       </div>
       <img v-if="product.imageUrl" :src="product.imageUrl" alt="image not found" class="product-image"/>
@@ -126,6 +126,10 @@ const nonHalalIngredients = computed(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.non-halal-picto-list {
+  margin: 2rem 0;
 }
 
 </style>

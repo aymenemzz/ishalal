@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import InputText from "@/components/HalalForm/InputText.vue";
 import IsHalalButton from "@/components/Button/IsHalalButton.vue";
 import DropZone from "@/components/HalalForm/DropZone.vue";
@@ -14,6 +14,8 @@ const props = defineProps({
 
 // Stocke le barcode émis par InputText
 const barCode = ref("");
+const barCodeTrimmed = computed(() => barCode.value.replace(/\s+/g, ""));
+
 </script>
 
 <template>
@@ -22,7 +24,7 @@ const barCode = ref("");
     <InvalidBarcode v-if="props.invalidBarcode" :barcode="props.invalidBarcode"/>
     <DropZone/>
     <InputText v-model:barcode="barCode"/>
-    <IsHalalButton :bar-code="barCode"/>
+    <IsHalalButton :bar-code="barCodeTrimmed"/>
   </div>
 
 </template>

@@ -17,16 +17,14 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
         );
         const labels_tags = response.data.product.labels_tags ?? [];
         let ingredients = [];
-        if (response.data.product.ingredients){
+        if (response.data.product.ingredients) {
             ingredients = response.data.product.ingredients;
-        }
-        else if (response.data.product.specific_ingredients){
+        } else if (response.data.product.specific_ingredients) {
             ingredients = response.data.product.specific_ingredients;
-        }
-        else{
+        } else {
             ingredients = [];
         }
-        
+
         const categories_tags = response.data.product.categories_tags ?? [];
         const categories_tags_dict = categories_tags.map((category: string) => {
             return {id: category};
@@ -35,7 +33,6 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
         const ingredients_tags_dict = ingredients_tags.map((ingredient: string) => {
             return {id: ingredient};
         });
-
 
 
         ingredients = ingredients.concat(categories_tags_dict, ingredients_tags_dict);

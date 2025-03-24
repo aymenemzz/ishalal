@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineProps} from 'vue';
+import {computed, defineProps} from 'vue';
 import porkPicto from '@/assets/picto/porkPicto.svg';
 import alcoolPicto from '@/assets/picto/alcoolPicto.svg';
 import drugsPicto from '@/assets/picto/drugsPicto.svg';
@@ -16,12 +16,16 @@ const props = defineProps<{
   nonHalalIngredients: string[];
 }>();
 
+const uniqueNonHalalIngredients = computed(() => {
+  return [...new Set(props.nonHalalIngredients)];
+});
+
 </script>
 
 <template>
-  <div v-if="nonHalalIngredients.length > 0" class="non-halal-icons">
+  <div v-if="uniqueNonHalalIngredients.length > 0" class="non-halal-icons">
     <img
-        v-for="ingredient in nonHalalIngredients"
+        v-for="ingredient in uniqueNonHalalIngredients"
         :key="ingredient"
         :src="ingredientIcons[ingredient]"
         :alt="ingredient"

@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 
 const nonHalalReasons = computed(() => {
-  return (props.nonHalalIngredients || [])
+  return [...new Set(props.nonHalalIngredients || [])]
       .map(ingredient => ingredientTranslations[ingredient] || ingredient)
       .join(", ");
 });
