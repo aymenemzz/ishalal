@@ -13,7 +13,7 @@ const openFoodFacts = axios.create({
 const getProductInformations = async (barcode: string): Promise<Product> => {
     try {
         const response = await openFoodFacts.get(
-            `/api/v0/product/${barcode}?fields=status,product_name,brands,ingredients,categories_tags,image_front_url,image_url,labels_tags,specific_ingredients`
+            `/api/v0/product/${barcode}?fields=status,product_name,brands,ingredients,categories_tags,ingredients_tags,image_front_url,image_url,labels_tags,specific_ingredients`
         );
         const labels_tags = response.data.product.labels_tags ?? [];
         let ingredients = [];
@@ -26,16 +26,20 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
         else{
             ingredients = [];
         }
-
-        // Map categories_tags to objects with a consistent structure
-        const categoriesTags = (response.data.product.categories_tags ?? []).map(tag => ({ id: tag, text: tag }));
-
-        // Combine ingredients and categories_tags
-        const combinedIngredients = [
-            ...ingredients,
-            ...categoriesTags
-        ];
         
+        const categories_tags = response.data.product.categories_tags ?? [];
+        const categories_tags_dict = categories_tags.map((category: string) => {
+            return {id: category};
+        });
+        const ingredients_tags = response.data.product.ingredients_tags ?? [];
+        const ingredients_tags_dict = ingredients_tags.map((ingredient: string) => {
+            return {id: ingredient};
+        });
+
+
+
+        ingredients = ingredients.concat(categories_tags_dict, ingredients_tags_dict);
+
         const product: Product = {
             barcode: response.data.code ?? null,
             productName: response.data.product.product_name ?? "Nom inconnu",
@@ -44,6 +48,8 @@ const getProductInformations = async (barcode: string): Promise<Product> => {
             imageUrl: response.data.product.image_front_url ?? response.data.product.image_url ?? null,
             withHalalTag: labels_tags.includes("en:halal"),
         };
+
+        console.log("Product informations", product);
 
         // console.log("Response", response.data);
         // console.log("Product informations", product);

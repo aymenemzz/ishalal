@@ -7,7 +7,7 @@ import tobbacoPicto from '@/assets/picto/tobbacoPicto.svg';
 
 const ingredientIcons: Record<string, string> = {
   "en:pork": porkPicto,
-  "en:alcool": alcoolPicto,
+  "en:alcohol": alcoolPicto,
   "en:drugs": drugsPicto,
   "en:tobbaco": tobbacoPicto,
 };

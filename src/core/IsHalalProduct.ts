@@ -7,7 +7,7 @@ import {toRaw} from "vue";
 
 const ingredientTranslationLibrary = {
     "en:pork": ["porc", "cochon", "fr:porc", "fr:cochon"],
-    "en:alcohol": ["en:alocholic-beverages", "alcool", "fr:alcool", "fr:boisson-alcoolisée"],
+    "en:alcohol": ["en:alcoholic-beverages", "alcool", "fr:alcool", "fr:boisson-alcoolisée", "en:alcool"],
 }
 
 export type HalalStatus = "halal" | "not-halal" | "doubtful";
